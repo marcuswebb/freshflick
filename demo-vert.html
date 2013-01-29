@@ -1,0 +1,162 @@
+<html>
+<head>
+<style>
+* {margin:0;padding:0;box-sizing:border-box;}
+html { background:#ccc; }
+body { width:100%;height:100%;overflow:hidden;position:fixed;
+background: -moz-linear-gradient(top,  rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 33%, rgba(0,0,0,0) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.2)), color-stop(33%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0)));
+background: -webkit-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0) 33%,rgba(0,0,0,0) 100%);
+background: -o-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0) 33%,rgba(0,0,0,0) 100%);
+background: -ms-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0) 33%,rgba(0,0,0,0) 100%);
+background: linear-gradient(to bottom,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0) 33%,rgba(0,0,0,0) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#33000000', endColorstr='#00000000',GradientType=0 );
+
+}
+ul
+	{
+		width:1000%;
+		width:300px;
+		height:100%;
+		margin:0 auto;
+		/*overflow:hidden;*/
+	}
+li 
+	{
+		display:block;
+		width:300px;
+		height:300px;
+		border:1px solid #ddd;
+	}
+li.fresh
+	{
+		height:3px;
+	}
+li.rotten { display:none; }
+.red 	{		background:red;	}
+.blue 	{		background:blue;	}
+.green 	{		background:#eee;	}
+body>div
+	{
+		position:absolute;
+		top:0;
+		right:0;
+		width:100px;
+		height:100px;
+		padding:10px;
+		background:#ddd;
+	}
+ol
+	{
+		overflow:hidden;
+		width:300px;
+		height:0px;
+		margin:0 auto;
+		border-left:1px solid #ddd;
+		border-right:1px solid #ddd;
+	}
+</style>
+</head>
+<body>
+	<div>
+		PRETEND TO SWIPE
+	</div>
+	<ol>
+	</ol>
+	<ul>
+		<li class="fresh green"></li>
+	</ul>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script>
+
+$(document).ready(function(){
+	//blah;
+	copy = $('ul').html();
+	$('ul').html('');
+	stage();
+	play();
+
+	$('body>div').click(function(){
+		freshenUp();
+		stage();
+		setTimeout(play, 0);
+		stale()
+	});
+});
+function stage() {
+	i = (($(window).height() / 300) + 1);
+	console.log(i);
+	while (i>1)
+	  {
+		$('ul').append(copy);
+	  i--
+	  }
+}
+function freshenUp() {
+	$('.fresh').each(function(){
+		$(this)
+		.removeClass('fresh')
+		.animate({
+			'height':3
+		}, 900, 'swing')
+	}).addClass('stale');
+}
+function play() {
+	$('.fresh')
+		.css({'margin-top':$(window).height()})
+		.animate({
+		'height':300
+	}, 100, 'swing').animate({
+		'marginTop':0
+	}, 700, 'linear')
+}
+function stale() {
+	$('.rotten').remove();
+	if ($('li.stale').length > 25) {
+		console.log('asdf');
+		$('li:lt(20)').animate({
+			'height':0,
+			'marginTop':-1
+		}, 300, 'swing', function(){
+			$(this).addClass('rotten');
+		});
+	}
+	bindOpen();
+}
+function bindOpen() {
+$('.stale').bind({
+mouseenter: function(e) {
+	$(this).stop().animate({
+		'height':300
+	}, 500, 'swing')
+},
+mouseleave: function(e) {
+	$(this).stop().animate({
+		'height':4
+	}, 300, 'swing')
+},
+click: function(e) {
+	// $(this).mouseenter(function(){})
+	$(this).unbind("mouseleave")
+	.bind({mouseleave:function(e) {
+		$(this).stop().animate({
+			'height':3
+		}, 300, 'swing')		
+	}})
+	//$(this).unbind('hover')
+	.css({
+		'background':'lime'
+	})
+},
+blur: function(e) {
+}
+});
+
+}
+
+function getRandomArbitary(min, max) {
+	return Math.random() * (max - min) + min;
+}
+</script>
+</body>
+</html>
