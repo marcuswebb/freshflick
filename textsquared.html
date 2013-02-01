@@ -1,0 +1,182 @@
+<html>
+<head>
+<style>
+* {margin:0;padding:0;box-sizing:border-box;}
+html { background:#ccc; }
+body { width:100%;height:100%;overflow:hidden;position:fixed;
+	font-family:arial;
+	font-size:55px;
+	text-transform:uppercase;
+background: -moz-linear-gradient(top,  rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 33%, rgba(0,0,0,0) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.2)), color-stop(33%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0)));
+background: -webkit-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0) 33%,rgba(0,0,0,0) 100%);
+background: -o-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0) 33%,rgba(0,0,0,0) 100%);
+background: -ms-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0) 33%,rgba(0,0,0,0) 100%);
+background: linear-gradient(to bottom,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0) 33%,rgba(0,0,0,0) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#33000000', endColorstr='#00000000',GradientType=0 );
+
+}
+ol>span 
+	{
+		display:block;
+		float:left;
+		width:100px;
+		height:100px;
+		border-top:1px solid #ddd;
+		border-left:1px solid #ddd;
+		background:#eee;
+	}
+</style>
+</head>
+<body>
+	<div style="display:none;">Convert a string to a grid of letters &amp; then fill the screen</div>
+	<ol>
+	</ol>
+	<!-- <ul>
+		<li class="fresh green"></li>
+	</ul> -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script>
+
+$(document).ready(function(){
+	//blah;
+	// copy = $('ul').html();
+	// $('ul').html('');
+	// stage();
+	// play();
+
+	// $('body>div').click(function(){
+	// 	freshenUp();
+	// 	stage();
+	// 	setTimeout(play, 0);
+	// 	stale()
+	// });
+	// var test = "test string";
+
+
+	// var test = $('body>div').html();
+	// $('body>div').html('');
+
+	// $(test.split('')).each(function (index,character) {
+	//     wrappedCharacter = '<span>' + character + '</span>';
+	//     console.log(wrappedCharacter);
+	//     var newtest = '';
+	//     newtest += wrappedCharacter;
+	//     $('body').prepend(newtest);
+	// });
+	
+	str = $('body>div').text();
+	strLength = str.length;
+	console.log(strLength);console.log(countGrd());
+	fillGrd();
+	setInterval(genChar,50)
+});
+
+function countGrd() {
+	$('ol').css({
+		'width':$(window).width() + 100
+	})
+	gridCols = (Math.round($(window).width() / 100) + 1);
+	gridRows = (Math.round($(window).height() / 100) + 1);
+	gridCount = gridRows * gridCols;
+	// console.log(gridCount);
+	return gridCount
+	//i = ((($(window).width() / 100) + 1) * (($(window).height() / 100) + 1)) * 1;
+
+	// while (i>1)
+	//   {
+	// 	$('span').append(copy);
+	//   i--
+	//   }
+	
+}
+
+function fillGrd() {
+
+	for (var i = 0, len = str.length; i < len; i++) {
+		if (str[i] != " ") { };
+	  	$('ol').append('<span>' + str[i] + '</span>');
+	}
+	grdLength = countGrd();
+	console.log(grdLength);
+	while (grdLength > strLength) {
+		// console.log('asdkfj');
+	  	$('ol').append('<span> </span>');
+
+		grdLength--
+	}
+	bindOpen();
+	// gridCount
+	// i = ((($(window).width() / 100) + 1) * (($(window).height() / 100) + 1)) * 1;
+
+	// while (i>1)
+	//   {
+	// 	$('span').append(copy);
+	//   i--
+	//   }
+}
+
+function bindOpen() {
+	$('ol span').bind({
+		mouseenter: function(e) {
+			$(this).removeClass('hovering').removeClass('clicked').stop().animate({
+				'opacity':0.1
+			}, 500, 'linear').addClass('hovering')
+		},
+		mouseleave: function(e) {
+			$(this).stop().animate({
+				'opacity':1
+			}, getRandomArbitary(300,1100), 'swing').removeClass('hovering').removeClass('clicked')
+		},
+		click: function(e) {
+			$('ol').html('');
+			fillGrd();
+			// $(this).unbind("mouseleave")
+			// .bind({mouseleave:function(e) {
+			// 	$(this).stop().animate({
+			// 	}, 300, 'swing')		
+			// }}).addClass('clicked')
+			// // $(this).unbind('hover')
+			// genCharInit($('.fresh:not(.clicked,.hovering)'));
+			// $(this).unbind("mouseleave").animate({
+			// 	'opacity':1
+			// }, getRandomArbitary(900,10000), 'swing', function() { 
+			// 	$(this).removeClass('hovering').bind({
+			// 		mouseleave: function(e) {
+			// 			$(this).stop().animate({
+			// 				'opacity':1
+			// 			}, 500, 'swing').removeClass('hovering').removeClass('clicked')
+			// 		},
+			// 	})
+			// })
+		},
+		blur: function(e) {
+		}
+	});
+}
+
+/* HELPER */
+function getRandomArbitary(min, max) {
+	return Math.random() * (max - min) + min;
+}
+function getChar() {
+    var text = "";
+    var possible = "abcdefghijklmnopqrstuvwxyz0123456789";
+    text = possible.charAt(Math.floor(Math.random() * possible.length));
+    text = '<span>' + text + '</span>';
+
+    return text;
+}
+function genChar() {
+	$('.hovering').html(getChar)
+//	genChar($(this))
+}
+function genCharInit(target) {
+	target.html(getChar).stop().each(function() {
+		$(this).css('opacity',0).animate({'opacity':1}, getRandomArbitary(0,9000), 'swing')
+	})
+}
+
+</script>
+</body>
+</html>
