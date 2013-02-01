@@ -14,6 +14,7 @@ body
 ol>span 
 	{
 		display:block;
+		overflow:hidden;
 		float:left;
 		width:100px;
 		height:100px;
@@ -25,6 +26,7 @@ ol>span
 	}
 .hovering:hover
 	{
+		color:#ddd;
 background:rgba(0,0,0,0.001);
     -webkit-transition: background-color 1000ms linear;
     -moz-transition: background-color 1000ms linear;
@@ -58,7 +60,8 @@ $(document).ready(function(){
 	strLength = str.length;
 	console.log(strLength);console.log(countGrd());
 	fillGrd();
-	setInterval(genChar,50)
+	setInterval(genChar,75);
+	genCharInit($('ol span'));
 });
 $(window).resize(function() {
 	// setTimeout(fillGrd,500);
@@ -89,6 +92,7 @@ function fillGrd() {
 		grdLength--
 	}
 	bindOpen();
+	genCharInit($('ol span'));
 	// gridCount
 	// i = ((($(window).width() / 100) + 1) * (($(window).height() / 100) + 1)) * 1;
 
@@ -153,11 +157,13 @@ function getChar() {
 function genChar() {
 	$('.hovering').html(getChar);
 }
-// function genCharInit(target) {
-// 	target.html(getChar).stop().each(function() {
-// 		$(this).css('opacity',0).animate({'opacity':1}, getRandomArbitary(0,9000), 'swing')
-// 	})
-// }
+function genCharInit(target) {
+	// target.html(getChar).stop().each(function() {
+	target.stop().each(function() {
+		$(this).css('opacity',0).animate({'opacity':1}, getRandomArbitary(0,1500), 'swing')
+	});
+	bindOpen();
+}
 
 		</script>
 	</body>
